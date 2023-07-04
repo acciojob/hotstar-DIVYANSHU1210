@@ -26,33 +26,35 @@ public class WebSeriesService {
 
         ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
         String seriesName = webSeriesEntryDto.getSeriesName();
-        WebSeries alreadyPresentWebSeries = webSeriesRepository.findBySeriesName(seriesName);
 
-        if(alreadyPresentWebSeries != null)throw new Exception("Series is already present");
+        if(webSeriesRepository.findBySeriesName(seriesName)== null){
+            WebSeries webSeries = new WebSeries();
+            webSeries.setSeriesName(seriesName);
+            webSeries.setAgeLimit(webSeriesEntryDto.getAgeLimit());
+            webSeries.setRating(webSeriesEntryDto.getRating());
+            webSeries.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
+            webSeries.setProductionHouse(productionHouse);
 
-
-
-        WebSeries webSeries = new WebSeries();
-        webSeries.setSeriesName(seriesName);
-        webSeries.setAgeLimit(webSeriesEntryDto.getAgeLimit());
-        webSeries.setRating(webSeriesEntryDto.getRating());
-        webSeries.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
-        webSeries.setProductionHouse(productionHouse);
-
-        Double productionHouseRating = (productionHouse.getRatings() + webSeries.getRating())/2;
-        productionHouse.setRatings(productionHouseRating);
+            Double productionHouseRating = (productionHouse.getRatings() + webSeries.getRating())/2;
+            productionHouse.setRatings(productionHouseRating);
 
 
 
-        webSeries = webSeriesRepository.save(webSeries);
+            webSeries = webSeriesRepository.save(webSeries);
 
-        productionHouse.getWebSeriesList().add(webSeries);
+            productionHouse.getWebSeriesList().add(webSeries);
 
-        productionHouseRepository.save(productionHouse);
+            productionHouseRepository.save(productionHouse);
 
-        /////////////////////////////////////////////////////////doubt : will it directly give the id of webseries if i save the parent (productionHouse)
-//        or do i need to save it to webSeriesRepo to get the id.
-        return webSeries.getId();
+            return webSeries.getId();
+        }
+        else{
+            throw new Exception("Series is already present");
+        }
+
+
+
+
     }
 
 }
