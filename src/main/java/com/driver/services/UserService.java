@@ -39,7 +39,7 @@ public class UserService {
         int cnt = 0;
         for(WebSeries series : webSeriesList){
             if(series.getSubscriptionType() == user.getSubscription().getSubscriptionType()){
-                if(series.getAgeLimit() <= user.getAge())cnt++;
+                if(series.getAgeLimit() < user.getAge())cnt++;
             }
         }
 
