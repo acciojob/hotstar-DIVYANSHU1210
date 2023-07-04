@@ -83,7 +83,7 @@ public class SubscriptionService {
         }
 
         subscription.setTotalAmountPaid(newPrice);
-        int amountToBePaid = oldPrice - newPrice;
+        int amountToBePaid =  newPrice - oldPrice;
 
         user.setSubscription(subscription);
 
