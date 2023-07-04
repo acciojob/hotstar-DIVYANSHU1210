@@ -24,10 +24,11 @@ public class WebSeriesService {
         //use function written in Repository Layer for the same
         //Dont forget to save the production and webseries Repo
 
-        ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
+
         String seriesName = webSeriesEntryDto.getSeriesName();
 
         if(webSeriesRepository.findBySeriesName(seriesName)== null){
+            ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
             WebSeries webSeries = new WebSeries();
             webSeries.setSeriesName(seriesName);
             webSeries.setAgeLimit(webSeriesEntryDto.getAgeLimit());
